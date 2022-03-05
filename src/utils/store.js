@@ -9,7 +9,7 @@ const initialState = {
   lastName: '',
   email: '',
   password: '',
-  token: '',
+  bearerToken: '',
 }
 
 export const testAction = {
