@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { store } from './utils/store'
 
 import Header from './components/header'
 import Footer from './components/footer'
@@ -13,18 +15,20 @@ import './style/main.css'
 import reportWebVitals from './reportWebVitals'
 //TODO if time, create a 404 page
 ReactDOM.render(
-  <React.StrictMode>
-    <Router>
-      <Header />
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Home />} />
-        <Route path="user/:id" element={<User />} />
-        {/* <Route path="*" element={<NotFound />} /> */}
-      </Routes>
-    </Router>
-    <Footer />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Home />} />
+          <Route path="user/:id" element={<User />} />
+          {/* <Route path="*" element={<NotFound />} /> */}
+        </Routes>
+      </Router>
+      <Footer />
+    </React.StrictMode>
+  </Provider>,
   document.getElementById('root')
 )
 

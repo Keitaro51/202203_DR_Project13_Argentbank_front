@@ -1,16 +1,22 @@
 import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { selectIdentity } from '../utils/selectors'
 import Transaction from '../components/transaction'
 import Button from '../components/button'
 
 function User() {
   const { id } = useParams()
+
+  const firstName = useSelector(selectIdentity('firstName'))
+  const lastName = useSelector(selectIdentity('lastName'))
+
   return (
     <main className="main bg-dark">
       <div className="header">
         <h1>
           Welcome back
           <br />
-          Tony Jarvis!
+          {firstName} {lastName} !
         </h1>
         <Button content="Edit Name" classStyle="edit-button" />
       </div>
