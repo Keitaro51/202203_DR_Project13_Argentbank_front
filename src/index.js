@@ -8,15 +8,17 @@ import Login from './pages/login'
 import Home from './pages/home'
 import User from './pages/user'
 
-import reportWebVitals from './reportWebVitals'
+import './style/main.css'
 
+import reportWebVitals from './reportWebVitals'
+//TODO if time, create a 404 page
 ReactDOM.render(
   <React.StrictMode>
-    <Header />
     <Router>
+      <Header />
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="home" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Home />} />
         <Route path="user/:id" element={<User />} />
         {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>

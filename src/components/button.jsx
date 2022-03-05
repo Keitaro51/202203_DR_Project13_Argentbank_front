@@ -1,5 +1,5 @@
-function Button({content}){
-    return <button>{content}</button>
+function Button({ content, classStyle }) {
+  return <button className={classStyle}>{content}</button>
 }
 
 export default Button
