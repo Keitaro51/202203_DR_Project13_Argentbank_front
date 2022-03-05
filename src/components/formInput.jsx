@@ -1,3 +1,5 @@
+import propTypes from 'prop-types'
+
 function FormInput({ type, idFor }) {
   return (
     <div className="input-wrapper">
@@ -5,6 +7,11 @@ function FormInput({ type, idFor }) {
       <input type={type} id={idFor} autoComplete="off" />
     </div>
   )
+}
+
+FormInput.propTypes = {
+  type: propTypes.string,
+  idFor: propTypes.string,
 }
 
 export default FormInput
