@@ -1,12 +1,9 @@
-import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectIdentity } from '../utils/selectors'
 import Transaction from '../components/transaction'
 import Button from '../components/button'
 
 function User() {
-  const { id } = useParams()
-
   const firstName = useSelector(selectIdentity('firstName'))
   const lastName = useSelector(selectIdentity('lastName'))
 

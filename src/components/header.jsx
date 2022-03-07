@@ -1,10 +1,15 @@
 import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { selectIdentity, selectIsConnected } from '../utils/selectors'
+
 import logo from '../assets/argentBankLogo.png'
 
-//TODO replace link to user/:id by true id
-//TODO onclick on signout
-//TODO adapt nav content for each page specificity
 function Header() {
+  const isConnected = useSelector(selectIsConnected)
+  const firstName = useSelector(selectIdentity('firstName'))
+
+  const dispatch = useDispatch()
+
   return (
     <header>
       <nav className="main-nav">
@@ -16,16 +21,30 @@ function Header() {
           />
           <h1 className="sr-only">Argent Bank</h1>
         </Link>
-        <div>
-          <Link to="user/:id" className="main-nav-item">
-            <i className="fa fa-user-circle"></i>
-            Tony
-          </Link>
-          <Link to="/" className="main-nav-item">
-            <i className="fa fa-sign-out"></i>
-            Sign Out
-          </Link>
-        </div>
+
+        {isConnected ? (
+          <div>
+            <Link to="/user" className="main-nav-item">
+              <i className="fa fa-user-circle"></i>
+              {firstName}
+            </Link>
+            <Link
+              to="/"
+              className="main-nav-item"
+              onClick={() => dispatch({ type: 'signout' })}
+            >
+              <i className="fa fa-sign-out"></i>
+              Sign Out
+            </Link>
+          </div>
+        ) : (
+          <div>
+            <Link to="/login" className="main-nav-item">
+              <i className="fa fa-user-circle"></i>
+              Sign In
+            </Link>
+          </div>
+        )}
       </nav>
     </header>
   )
