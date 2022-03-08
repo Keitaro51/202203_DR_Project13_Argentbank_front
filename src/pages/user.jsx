@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useSelector, useStore } from 'react-redux'
 import { selectIdentity, selectBearerToken } from '../utils/selectors'
 
@@ -11,9 +12,16 @@ function User() {
   const store = useStore()
   const bearerToken = selectBearerToken(store.getState())
 
+  let navigate = useNavigate()
+
   useEffect(() => {
-    fetchOrUpdatePostProfile(store, bearerToken)
-  }, [store, bearerToken])
+    if (bearerToken) {
+      fetchOrUpdatePostProfile(store, bearerToken)
+    } else {
+      navigate('/login')
+    }
+  }, [store, bearerToken, navigate])
+
   const firstName = useSelector(selectIdentity('firstName'))
   const lastName = useSelector(selectIdentity('lastName'))
 
