@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const post = (url, body, bearerToken) => {
   if (bearerToken) {
-    axios.defaults.headers.common = { Authorization: `bearer ${bearerToken}` }
+    axios.defaults.headers.common = { Authorization: `Bearer ${bearerToken}` }
   }
   return axios
     .post(url, body)
@@ -21,7 +21,7 @@ const put = (url, body, bearerToken) => {
 }
 
 const handleResponse = (response) => {
-  return response.data.data
+  return response.data
 }
 
 export { post, put }

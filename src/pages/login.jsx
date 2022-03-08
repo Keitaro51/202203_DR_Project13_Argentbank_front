@@ -1,14 +1,22 @@
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { USER } from '../config'
 
+import { useStore } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { fetchOrUpdateLogin } from '../features/fetchLogin'
+
+import Button from '../components/button'
 import FormInput from '../components/formInput'
 
 function Login() {
-  const dispatch = useDispatch()
   let navigate = useNavigate()
+  const store = useStore()
 
-  function handleClick() {
-    dispatch({ type: 'login' })
+  async function handleClick(e) {
+    e.preventDefault()
+    await fetchOrUpdateLogin(store, {
+      email: USER.email,
+      password: USER.password,
+    })
     navigate('/user')
   }
 
@@ -18,15 +26,13 @@ function Login() {
         <i className="fa fa-user-circle sign-in-icon"></i>
         <h1>Sign In</h1>
         <form onSubmit={handleClick}>
-          <FormInput type="text" idFor="username" />
-          <FormInput type="password" idFor="password" />
+          <FormInput type="text" idFor="username" prefill={USER.email} />
+          <FormInput type="password" idFor="password" prefill={USER.password} />
           <div className="input-remember">
             <input type="checkbox" id="remember-me" />
             <label htmlFor="remember-me">Remember me</label>
           </div>
-          <button type="submit" className="sign-in-button">
-            Sign In
-          </button>
+          <Button type="submit" content="Sign In" classStyle="sign-in-button" />
         </form>
       </section>
     </main>

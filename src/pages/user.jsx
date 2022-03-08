@@ -1,9 +1,19 @@
-import { useSelector } from 'react-redux'
-import { selectIdentity } from '../utils/selectors'
+import { useEffect } from 'react'
+import { useSelector, useStore } from 'react-redux'
+import { selectIdentity, selectBearerToken } from '../utils/selectors'
+
+import { fetchOrUpdatePostProfile } from '../features/fetchUser'
+
 import Transaction from '../components/transaction'
 import Button from '../components/button'
 
 function User() {
+  const store = useStore()
+  const bearerToken = selectBearerToken(store.getState())
+
+  useEffect(() => {
+    fetchOrUpdatePostProfile(store, bearerToken)
+  }, [store, bearerToken])
   const firstName = useSelector(selectIdentity('firstName'))
   const lastName = useSelector(selectIdentity('lastName'))
 

@@ -6,7 +6,7 @@
  * @return  {string}           stored first or last name
  */
 export const selectIdentity = (_stName) => {
-  return (state) => state[_stName]
+  return (state) => state.user[_stName]
 }
 
 /**
@@ -14,4 +14,8 @@ export const selectIdentity = (_stName) => {
  *
  * @return {boolean}  true if bearer token exist in state
  */
-export const selectIsConnected = (state) => state.bearerToken !== ''
+export const selectIsConnected = (state) => state.user.bearerToken !== ''
+
+export const selectFetchStatus = (state, src) => state[src].status
+
+export const selectBearerToken = (state) => state.user.bearerToken

@@ -1,36 +1,16 @@
-import { createStore } from 'redux'
-import produce from 'immer'
+import { createStore, combineReducers } from 'redux'
+
+import { fetchLoginReducer } from '../features/fetchLogin'
+import { fetchPostProfileReducer } from '../features/fetchUser'
+import { userReducer } from '../features/user'
 
 const reduxDevtools =
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 
-const initialState = {
-  firstName: '',
-  lastName: '',
-  bearerToken: '',
-  isUpdating: false,
-}
-
-export const loginAction = () => ({
-  type: 'login',
+const reducer = combineReducers({
+  fetchLogin: fetchLoginReducer,
+  fetchUser: fetchPostProfileReducer,
+  user: userReducer,
 })
 
-export const signOutAction = () => ({
-  type: 'signout',
-})
-
-function reducer(state, action) {
-  if (action.type === 'login') {
-    return produce(state, (draft) => {
-      draft.firstName = 'Abed'
-      draft.lastName = 'cool cool cool Nadir'
-      draft.bearerToken = 'yolo'
-    })
-  }
-  if (action.type === 'signout') {
-    return initialState
-  }
-  return state
-}
-
-export const store = createStore(reducer, initialState, reduxDevtools)
+export const store = createStore(reducer, reduxDevtools)
