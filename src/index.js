@@ -5,10 +5,10 @@ import { Provider } from 'react-redux'
 import { store } from './utils/store'
 
 import Header from './components/header'
-import Footer from './components/footer'
-import Login from './pages/login'
-import Home from './pages/home'
-import User from './pages/user'
+import Footer from './components/Footer'
+import Login from './pages/Login'
+import Home from './pages/Home'
+import User from './pages/User'
 
 import './style/main.css'
 

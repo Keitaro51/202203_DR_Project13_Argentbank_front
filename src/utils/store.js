@@ -2,6 +2,7 @@ import { createStore, combineReducers } from 'redux'
 
 import { fetchLoginReducer } from '../features/fetchLogin'
 import { fetchPostProfileReducer } from '../features/fetchUser'
+import { fetchPutProfileReducer } from '../features/fetchUpdate'
 import { userReducer } from '../features/user'
 
 const reduxDevtools =
@@ -10,6 +11,7 @@ const reduxDevtools =
 const reducer = combineReducers({
   fetchLogin: fetchLoginReducer,
   fetchUser: fetchPostProfileReducer,
+  fetchUpdate: fetchPutProfileReducer,
   user: userReducer,
 })
 

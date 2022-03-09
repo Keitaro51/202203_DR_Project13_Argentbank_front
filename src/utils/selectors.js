@@ -16,6 +16,9 @@ export const selectIdentity = (_stName) => {
  */
 export const selectIsConnected = (state) => state.user.bearerToken !== ''
 
-export const selectFetchStatus = (state, src) => state[src].status
-
+//TODO merge selectBearerToken with selectIsConnected?
 export const selectBearerToken = (state) => state.user.bearerToken
+
+export const selectIsEditing = (state) => state.user.isEditing
+
+export const selectFetchStatus = (state, src) => state[src].status

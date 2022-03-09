@@ -1,5 +1,5 @@
-import HeroBanner from '../components/heroBanner'
-import Feature from '../components/features'
+import HeroBanner from '../components/HeroBanner'
+import Feature from '../components/Features'
 
 import chatIcon from '../assets/icon-chat.svg'
 import moneyIcon from '../assets/icon-money.svg'

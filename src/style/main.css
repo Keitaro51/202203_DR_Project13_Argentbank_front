@@ -290,3 +290,18 @@ body {
     width: 200px;
   }
 }
+
+.edit-name-form {
+  margin: auto;
+}
+
+.input-row-wrapper,
+.button-row-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.button-row-wrapper button {
+  width: 5rem;
+}

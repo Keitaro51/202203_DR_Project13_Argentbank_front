@@ -1,17 +1,23 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useStore } from 'react-redux'
-import { selectIdentity, selectBearerToken } from '../utils/selectors'
+import {
+  selectIdentity,
+  selectBearerToken,
+  selectIsEditing,
+} from '../utils/selectors'
 
 import { fetchOrUpdatePostProfile } from '../features/fetchUser'
 
-import Transaction from '../components/transaction'
-import Button from '../components/button'
+import Transaction from '../components/Transaction'
+import Button from '../components/Button'
+import Edit from '../components/Edit'
 
 function User() {
   const store = useStore()
-  const bearerToken = selectBearerToken(store.getState())
-
+  const bearerToken = useSelector(selectBearerToken)
+  const isEditing = useSelector(selectIsEditing)
+  console.log(bearerToken)
   let navigate = useNavigate()
 
   useEffect(() => {
@@ -27,14 +33,25 @@ function User() {
 
   return (
     <main className="main bg-dark">
-      <div className="header">
-        <h1>
-          Welcome back
-          <br />
-          {firstName} {lastName} !
-        </h1>
-        <Button content="Edit Name" classStyle="edit-button" />
-      </div>
+      {isEditing ? (
+        <div className="header">
+          <h1>Welcome back</h1>
+          <Edit />
+        </div>
+      ) : (
+        <div className="header">
+          <h1>
+            Welcome back
+            <br />
+            {firstName} {lastName} !
+          </h1>
+          <Button
+            clickAction="toggleEditMode"
+            content="Edit Name"
+            classStyle="edit-button"
+          />
+        </div>
+      )}
       <h2 className="sr-only">Accounts</h2>
       <Transaction />
     </main>
