@@ -9,7 +9,7 @@ function Edit() {
   const lastName = useSelector(selectIdentity('lastName'))
 
   return (
-    <form class="edit-name-form">
+    <form className="edit-name-form">
       <div className="input-row-wrapper">
         <FormInput type="text" idFor="firstName" prefill={firstName} />
         <FormInput type="text" idFor="lastName" prefill={lastName} />

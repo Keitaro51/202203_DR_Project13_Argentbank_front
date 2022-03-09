@@ -17,8 +17,7 @@ function User() {
   const store = useStore()
   const bearerToken = useSelector(selectBearerToken)
   const isEditing = useSelector(selectIsEditing)
-  console.log(bearerToken)
-  let navigate = useNavigate()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (bearerToken) {

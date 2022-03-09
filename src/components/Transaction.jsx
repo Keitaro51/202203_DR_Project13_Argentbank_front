@@ -1,23 +1,22 @@
 import Button from './Button'
 
-import { transactions } from '../mock/transactions'
+import { accounts } from '../mock/accounts'
 
-function Transaction() {
+function account() {
   return (
     <>
-      {transactions.map((transaction) => (
-        <section key={transaction.title} className="account">
+      {accounts.map((account) => (
+        <section key={account.id} className="account">
           <div className="account-content-wrapper">
-            <h3 className="account-title">{transaction.title}</h3>
-            <p className="account-amount">{transaction.amount}</p>
-            <p className="account-amount-description">
-              {transaction.description}
-            </p>
+            <h3 className="account-title">{account.title}</h3>
+            <p className="account-amount">{account.amount}</p>
+            <p className="account-amount-description">{account.description}</p>
           </div>
-          <div className="account-content-wrapper cta">
+          <div className="account-content-wrapper cta" data-id={account.id}>
             <Button
               content="View transactions"
               classStyle="transaction-button"
+              clickAction="transactions"
             />
           </div>
         </section>
@@ -26,4 +25,4 @@ function Transaction() {
   )
 }
 
-export default Transaction
+export default account

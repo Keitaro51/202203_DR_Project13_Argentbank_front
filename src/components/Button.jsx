@@ -1,4 +1,5 @@
 import propTypes from 'prop-types'
+import { useNavigate } from 'react-router-dom'
 import { useStore, useDispatch } from 'react-redux'
 import { fetchOrUpdatePutProfile } from '../features/fetchUpdate'
 
@@ -6,8 +7,9 @@ function Button({ content, classStyle, type, clickAction }) {
   //TODO create and connect with edit inputs buttons
   const store = useStore()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  function clickManager() {
+  function clickManager(e) {
     if (clickAction === 'toggleEditMode') {
       dispatch({ type: 'toggleEditMode' })
     }
@@ -24,11 +26,15 @@ function Button({ content, classStyle, type, clickAction }) {
     if (clickAction === 'cancel') {
       dispatch({ type: 'toggleEditMode' })
     }
+    if (clickAction === 'transactions') {
+      const accountId = e.target.parentNode.dataset['id']
+      navigate(`/transaction/${accountId}`)
+    }
   }
 
   return (
     <button
-      onClick={clickAction ? clickManager : undefined}
+      onClick={clickAction ? (e) => clickManager(e) : undefined}
       type={type}
       className={classStyle}
     >
