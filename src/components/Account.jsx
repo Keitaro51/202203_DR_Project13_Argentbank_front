@@ -2,7 +2,11 @@ import Button from './Button'
 
 import { accounts } from '../mock/accounts'
 
-function account() {
+/**
+ * account row component
+ * @component
+ */
+function Account() {
   return (
     <>
       {accounts.map((account) => (
@@ -25,4 +29,4 @@ function account() {
   )
 }
 
-export default account
+export default Account

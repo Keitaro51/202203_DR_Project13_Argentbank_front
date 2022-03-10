@@ -1,3 +1,7 @@
+/**
+ * footer component
+ * @component
+ */
 function Footer() {
   return (
     <footer className="footer">

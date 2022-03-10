@@ -1,3 +1,5 @@
+//Redux selectors
+
 /**
  * Select first or last name in state
  *
@@ -16,9 +18,24 @@ export const selectIdentity = (_stName) => {
  */
 export const selectIsConnected = (state) => state.user.bearerToken !== ''
 
-//TODO merge selectBearerToken with selectIsConnected?
+/**
+ * Select bearer token in state
+ *
+ * @return {string}  connected user's bearer token
+ */
 export const selectBearerToken = (state) => state.user.bearerToken
 
+/**
+ * check if interface is or not in editing mode
+ *
+ * @return {boolean}  true if edit mode is active
+ */
 export const selectIsEditing = (state) => state.user.isEditing
 
+/**
+ * select fetch request state
+ *
+ * @param {string} src depend of fetch source (fetch login, user, update, etc...)
+ * @return {string}  fetch request status
+ */
 export const selectFetchStatus = (state, src) => state[src].status

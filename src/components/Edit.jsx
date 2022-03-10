@@ -4,6 +4,10 @@ import { selectIdentity } from '../utils/selectors'
 import Button from '../components/Button'
 import FormInput from '../components/FormInput'
 
+/**
+ * user edit form component when edit mode activated
+ * @component
+ */
 function Edit() {
   const firstName = useSelector(selectIdentity('firstName'))
   const lastName = useSelector(selectIdentity('lastName'))
@@ -16,7 +20,7 @@ function Edit() {
       </div>
       <div className="button-row-wrapper">
         <Button
-          content="Edit"
+          content="Save"
           type="submit"
           classStyle="edit-button"
           clickAction="update"

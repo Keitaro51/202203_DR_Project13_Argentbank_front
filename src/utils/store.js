@@ -1,3 +1,5 @@
+//Redux store
+
 import { createStore, combineReducers } from 'redux'
 
 import { fetchLoginReducer } from '../features/fetchLogin'

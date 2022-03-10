@@ -7,12 +7,21 @@ import { fetchOrUpdateLogin } from '../features/fetchLogin'
 import Button from '../components/Button'
 import FormInput from '../components/FormInput'
 
+/**
+ * login page component
+ * @component
+ */
 function Login() {
   let navigate = useNavigate()
   const store = useStore()
 
+  /**
+   * submit login form and redirect to user page
+   * @param {object} e  event
+   */
   async function handleClick(e) {
     e.preventDefault()
+    //TODO await necessaire? useeffect necessaire?
     await fetchOrUpdateLogin(store, {
       email: USER.email,
       password: USER.password,

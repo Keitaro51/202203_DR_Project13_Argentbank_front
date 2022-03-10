@@ -1,3 +1,5 @@
+//Redux action creators and reducer for update profile fetch request statement
+
 import { produce } from 'immer'
 import { putProfile } from '../services/putData'
 import { selectFetchStatus, selectBearerToken } from '../utils/selectors'
@@ -58,6 +60,14 @@ export function fetchPutProfileReducer(state = initialState, action) {
   })
 }
 
+/**
+ * Manage update profile fetch request redux statement
+ *
+ * @param   {object}  store  current redux store
+ * @param   {object}  body   request body
+ *
+ * @return  {void}         exits the function if a request is already in progress
+ */
 export async function fetchOrUpdatePutProfile(store, body) {
   const status = selectFetchStatus(store.getState(), 'fetchUpdate')
   const token = selectBearerToken(store.getState())

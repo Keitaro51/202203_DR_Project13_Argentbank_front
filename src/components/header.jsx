@@ -4,6 +4,10 @@ import { selectIdentity, selectIsConnected } from '../utils/selectors'
 
 import logo from '../assets/argentBankLogo.png'
 
+/**
+ * header component
+ * @component
+ */
 function Header() {
   const isConnected = useSelector(selectIsConnected)
   const firstName = useSelector(selectIdentity('firstName'))

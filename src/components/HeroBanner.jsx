@@ -1,3 +1,7 @@
+/**
+ * main page hero banner component
+ * @component
+ */
 function HeroBanner() {
   return (
     <div className="hero">

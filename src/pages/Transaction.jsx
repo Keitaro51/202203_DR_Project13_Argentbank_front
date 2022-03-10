@@ -3,6 +3,10 @@ import React from 'react'
 
 import { accounts } from '../mock/accounts'
 
+/**
+ * transactions page component / finish implementation in project phase 2
+ * @component
+ */
 function Transaction() {
   const { id } = useParams()
 

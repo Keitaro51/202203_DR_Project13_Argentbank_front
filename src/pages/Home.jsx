@@ -5,6 +5,10 @@ import chatIcon from '../assets/icon-chat.svg'
 import moneyIcon from '../assets/icon-money.svg'
 import securityIcon from '../assets/icon-security.svg'
 
+/**
+ * home page component
+ * @component
+ */
 function Home() {
   return (
     <main>

@@ -1,3 +1,5 @@
+//Redux action creators and reducer for view profile fetch request statement
+
 import { produce } from 'immer'
 import { postProfile } from '../services/postData'
 import { selectFetchStatus } from '../utils/selectors'
@@ -58,6 +60,14 @@ export function fetchPostProfileReducer(state = initialState, action) {
   })
 }
 
+/**
+ * Manage view profile fetch request redux statement
+ *
+ * @param   {object}  store  current redux store
+ * @param   {object}  body   request body
+ *
+ * @return  {void}         exits the function if a request is already in progress
+ */
 export async function fetchOrUpdatePostProfile(store, bearer) {
   const status = selectFetchStatus(store.getState(), 'fetchUser')
   if (status === 'pending' || status === 'updating') {

@@ -3,18 +3,29 @@ import { useNavigate } from 'react-router-dom'
 import { useStore, useDispatch } from 'react-redux'
 import { fetchOrUpdatePutProfile } from '../features/fetchUpdate'
 
+/**
+ * button component
+ * @param {string} content button label prop
+ * @param {string} classStyle button css class style prop
+ * @param {string} type button type prop
+ * @param {string} clickAction onclicl action to perform prop (see clickManager())
+ * @component
+ */
 function Button({ content, classStyle, type, clickAction }) {
-  //TODO create and connect with edit inputs buttons
   const store = useStore()
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  /**
+   * define onclick action to perform depending on button props
+   * @param {object} e click event
+   */
   function clickManager(e) {
     if (clickAction === 'toggleEditMode') {
       dispatch({ type: 'toggleEditMode' })
     }
     if (clickAction === 'update') {
-      //TODO si un champ non rempli
+      //TODO add more validation and empty field case
       const newFirstName = document.getElementById('firstName').value
       const newLastName = document.getElementById('lastName').value
       fetchOrUpdatePutProfile(store, {
@@ -22,7 +33,7 @@ function Button({ content, classStyle, type, clickAction }) {
         lastName: newLastName,
       })
     }
-    //TODO cancel quand quitte page?
+    //TODO toggleEditMode still active if user leave page manually
     if (clickAction === 'cancel') {
       dispatch({ type: 'toggleEditMode' })
     }
@@ -47,6 +58,7 @@ Button.propTypes = {
   content: propTypes.string,
   classStyle: propTypes.string,
   type: propTypes.string,
+  clickAction: propTypes.string,
 }
 
 export default Button

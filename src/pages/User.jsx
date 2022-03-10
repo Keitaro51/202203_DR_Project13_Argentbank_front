@@ -9,10 +9,14 @@ import {
 
 import { fetchOrUpdatePostProfile } from '../features/fetchUser'
 
-import Transaction from '../components/Transaction'
+import Account from '../components/Account'
 import Button from '../components/Button'
 import Edit from '../components/Edit'
 
+/**
+ * user accounts page component
+ * @component
+ */
 function User() {
   const store = useStore()
   const bearerToken = useSelector(selectBearerToken)
@@ -52,7 +56,7 @@ function User() {
         </div>
       )}
       <h2 className="sr-only">Accounts</h2>
-      <Transaction />
+      <Account />
     </main>
   )
 }

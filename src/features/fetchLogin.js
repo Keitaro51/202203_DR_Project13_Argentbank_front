@@ -1,3 +1,5 @@
+//Redux action creators and reducer for login user fetch request statement
+
 import { produce } from 'immer'
 import { postLogin } from '../services/postData'
 import { selectFetchStatus } from '../utils/selectors'
@@ -58,6 +60,14 @@ export function fetchLoginReducer(state = initialState, action) {
   })
 }
 
+/**
+ * Manage login fetch request redux statement
+ *
+ * @param   {object}  store  current redux store
+ * @param   {object}  body   request body
+ *
+ * @return  {void}         exits the function if a request is already in progress
+ */
 export async function fetchOrUpdateLogin(store, body) {
   const status = selectFetchStatus(store.getState(), 'fetchLogin')
   if (status === 'pending' || status === 'updating') {

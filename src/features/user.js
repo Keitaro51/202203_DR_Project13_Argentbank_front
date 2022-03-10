@@ -1,3 +1,5 @@
+//Redux action creators and reducer for current user statement
+
 import { produce } from 'immer'
 
 const initialState = {

@@ -14,7 +14,7 @@ import Transaction from './pages/Transaction'
 import './style/main.css'
 
 import reportWebVitals from './reportWebVitals'
-//TODO if time, create a 404 page
+
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
