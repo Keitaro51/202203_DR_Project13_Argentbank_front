@@ -1,6 +1,5 @@
 //Redux action creators and reducer for current user statement
-import { createAction } from '@reduxjs/toolkit'
-import { produce } from 'immer'
+import { createAction, createReducer } from '@reduxjs/toolkit'
 
 const initialState = {
   firstName: '',
@@ -16,33 +15,29 @@ export const signOutAction = createAction('signout')
 export const toggleEditMode = createAction('toggleEditMode')
 export const updateUser = createAction('update')
 
-export function userReducer(state = initialState, action) {
-  if (action.type === loginAction.toString()) {
-    return produce(state, (draft) => {
+export default createReducer(initialState, (builder) => {
+  return builder
+    .addCase(loginAction, (draft, action) => {
       draft.bearerToken = action.payload.body.token
+      return
     })
-  }
-  if (action.type === userInfoAction.toString()) {
-    return produce(state, (draft) => {
+    .addCase(userInfoAction, (draft, action) => {
       draft.firstName = action.payload.body.firstName
       draft.lastName = action.payload.body.lastName
       draft.email = action.payload.body.email
+      return
     })
-  }
-  if (action.type === toggleEditMode.toString()) {
-    return produce(state, (draft) => {
+    .addCase(toggleEditMode, (draft) => {
       draft.isEditing = !draft.isEditing
+      return
     })
-  }
-  if (action.type === updateUser.toString()) {
-    return produce(state, (draft) => {
+    .addCase(updateUser, (draft, action) => {
       draft.firstName = action.payload.body.firstName
       draft.lastName = action.payload.body.lastName
       draft.isEditing = !draft.isEditing
+      return
     })
-  }
-  if (action.type === signOutAction.toString()) {
-    return initialState
-  }
-  return state
-}
+    .addCase(signOutAction, () => {
+      return initialState
+    })
+})

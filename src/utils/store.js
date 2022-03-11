@@ -2,10 +2,10 @@
 
 import { configureStore } from '@reduxjs/toolkit'
 
-import { fetchLoginReducer } from '../features/fetchLogin'
-import { fetchPostProfileReducer } from '../features/fetchUser'
-import { fetchPutProfileReducer } from '../features/fetchUpdate'
-import { userReducer } from '../features/user'
+import fetchLoginReducer from '../features/fetchLogin'
+import fetchPostProfileReducer from '../features/fetchUser'
+import fetchPutProfileReducer from '../features/fetchUpdate'
+import userReducer from '../features/user'
 
 export const store = configureStore({
   reducer: {

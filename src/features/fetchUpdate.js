@@ -1,5 +1,5 @@
 //Redux action creators and reducer for update profile fetch request statement
-import { createAction } from '@reduxjs/toolkit'
+import { createAction, createReducer } from '@reduxjs/toolkit'
 import { produce } from 'immer'
 import { putProfile } from '../services/putData'
 import { selectFetchStatus, selectBearerToken } from '../utils/selectors'
@@ -14,47 +14,42 @@ const putProfileFetching = createAction('putProfile/fetching')
 const putProfileResolved = createAction('putProfile/resolved')
 const putProfileRejected = createAction('putProfile/rejected')
 
-export function fetchPutProfileReducer(state = initialState, action) {
-  return produce(state, (draft) => {
-    switch (action.type) {
-      case putProfileFetching.toString(): {
-        if (draft.status === 'void') {
-          draft.status = 'pending'
-          return
-        }
-        if (draft.status === 'rejected') {
-          draft.error = null
-          draft.status = 'pending'
-          return
-        }
-        if (draft.status === 'resolved') {
-          draft.status = 'updating'
-          return
-        }
+export default createReducer(initialState, (builder) => {
+  return builder
+    .addCase(putProfileFetching, (draft) => {
+      if (draft.status === 'void') {
+        draft.status = 'pending'
         return
       }
-      case putProfileResolved.toString: {
-        if (draft.status === 'pending' || draft.status === 'updating') {
-          draft.data = action.payload
-          draft.status = 'resolved'
-          return
-        }
+      if (draft.status === 'rejected') {
+        draft.error = null
+        draft.status = 'pending'
         return
       }
-      case putProfileRejected.toString: {
-        if (draft.status === 'pending' || draft.status === 'updating') {
-          draft.error = action.payload
-          draft.data = null
-          draft.status = 'rejected'
-          return
-        }
+      if (draft.status === 'resolved') {
+        draft.status = 'updating'
         return
       }
-      default:
+      return
+    })
+    .addCase(putProfileResolved, (draft, action) => {
+      if (draft.status === 'pending' || draft.status === 'updating') {
+        draft.data = action.payload
+        draft.status = 'resolved'
         return
-    }
-  })
-}
+      }
+      return
+    })
+    .addCase(putProfileRejected, (draft, action) => {
+      if (draft.status === 'pending' || draft.status === 'updating') {
+        draft.error = action.payload
+        draft.data = null
+        draft.status = 'rejected'
+        return
+      }
+      return
+    })
+})
 
 /**
  * Manage update profile fetch request redux statement

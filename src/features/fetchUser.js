@@ -1,5 +1,5 @@
 //Redux action creators and reducer for view profile fetch request statement
-import { createAction } from '@reduxjs/toolkit'
+import { createAction, createReducer } from '@reduxjs/toolkit'
 import { produce } from 'immer'
 import { postProfile } from '../services/postData'
 import { selectFetchStatus } from '../utils/selectors'
@@ -14,47 +14,42 @@ const postProfileFetching = createAction('postProfile/fetching')
 const postProfileResolved = createAction('postProfile/resolved')
 const postProfileRejected = createAction('postProfile/rejected')
 
-export function fetchPostProfileReducer(state = initialState, action) {
-  return produce(state, (draft) => {
-    switch (action.type) {
-      case postProfileFetching.toString(): {
-        if (draft.status === 'void') {
-          draft.status = 'pending'
-          return
-        }
-        if (draft.status === 'rejected') {
-          draft.error = null
-          draft.status = 'pending'
-          return
-        }
-        if (draft.status === 'resolved') {
-          draft.status = 'updating'
-          return
-        }
+export default createReducer(initialState, (builder) => {
+  return builder
+    .addCase(postProfileFetching, (draft) => {
+      if (draft.status === 'void') {
+        draft.status = 'pending'
         return
       }
-      case postProfileResolved.toString(): {
-        if (draft.status === 'pending' || draft.status === 'updating') {
-          draft.data = action.payload
-          draft.status = 'resolved'
-          return
-        }
+      if (draft.status === 'rejected') {
+        draft.error = null
+        draft.status = 'pending'
         return
       }
-      case postProfileRejected.toString(): {
-        if (draft.status === 'pending' || draft.status === 'updating') {
-          draft.error = action.payload
-          draft.data = null
-          draft.status = 'rejected'
-          return
-        }
+      if (draft.status === 'resolved') {
+        draft.status = 'updating'
         return
       }
-      default:
+      return
+    })
+    .addCase(postProfileResolved, (draft, action) => {
+      if (draft.status === 'pending' || draft.status === 'updating') {
+        draft.data = action.payload
+        draft.status = 'resolved'
         return
-    }
-  })
-}
+      }
+      return
+    })
+    .addCase(postProfileRejected, (draft, action) => {
+      if (draft.status === 'pending' || draft.status === 'updating') {
+        draft.error = action.payload
+        draft.data = null
+        draft.status = 'rejected'
+        return
+      }
+      return
+    })
+})
 
 /**
  * Manage view profile fetch request redux statement
