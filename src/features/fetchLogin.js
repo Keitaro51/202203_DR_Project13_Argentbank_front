@@ -1,5 +1,5 @@
 //Redux action creators and reducer for login user fetch request statement
-
+import { createAction } from '@reduxjs/toolkit'
 import { produce } from 'immer'
 import { postLogin } from '../services/postData'
 import { selectFetchStatus } from '../utils/selectors'
@@ -10,18 +10,14 @@ const initialState = {
   error: null,
 }
 
-const FETCHING = 'login/fetching'
-const RESOLVED = 'login/resolved'
-const REJECTED = 'login/rejected'
-
-const loginFetching = () => ({ type: FETCHING })
-const loginResolved = (data) => ({ type: RESOLVED, payload: data })
-const loginRejected = (error) => ({ type: REJECTED, payload: error })
+const loginFetching = createAction('login/fetching')
+const loginResolved = createAction('login/resolved')
+const loginRejected = createAction('login/rejected')
 
 export function fetchLoginReducer(state = initialState, action) {
   return produce(state, (draft) => {
     switch (action.type) {
-      case FETCHING: {
+      case loginFetching.toString(): {
         if (draft.status === 'void') {
           draft.status = 'pending'
           return
@@ -37,7 +33,7 @@ export function fetchLoginReducer(state = initialState, action) {
         }
         return
       }
-      case RESOLVED: {
+      case loginResolved.toString(): {
         if (draft.status === 'pending' || draft.status === 'updating') {
           draft.data = action.payload
           draft.status = 'resolved'
@@ -45,7 +41,7 @@ export function fetchLoginReducer(state = initialState, action) {
         }
         return
       }
-      case REJECTED: {
+      case loginRejected.toString(): {
         if (draft.status === 'pending' || draft.status === 'updating') {
           draft.error = action.payload
           draft.data = null

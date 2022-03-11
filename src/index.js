@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import store from './utils/store'
+import { store } from './utils/store'
 
 import Header from './components/header'
 import Footer from './components/Footer'

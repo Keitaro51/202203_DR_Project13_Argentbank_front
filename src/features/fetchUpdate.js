@@ -1,5 +1,5 @@
 //Redux action creators and reducer for update profile fetch request statement
-
+import { createAction } from '@reduxjs/toolkit'
 import { produce } from 'immer'
 import { putProfile } from '../services/putData'
 import { selectFetchStatus, selectBearerToken } from '../utils/selectors'
@@ -10,18 +10,14 @@ const initialState = {
   error: null,
 }
 
-const FETCHING = 'putProfile/fetching'
-const RESOLVED = 'putProfile/resolved'
-const REJECTED = 'putProfile/rejected'
-
-const putProfileFetching = () => ({ type: FETCHING })
-const putProfileResolved = (data) => ({ type: RESOLVED, payload: data })
-const putProfileRejected = (error) => ({ type: REJECTED, payload: error })
+const putProfileFetching = createAction('putProfile/fetching')
+const putProfileResolved = createAction('putProfile/resolved')
+const putProfileRejected = createAction('putProfile/rejected')
 
 export function fetchPutProfileReducer(state = initialState, action) {
   return produce(state, (draft) => {
     switch (action.type) {
-      case FETCHING: {
+      case putProfileFetching.toString(): {
         if (draft.status === 'void') {
           draft.status = 'pending'
           return
@@ -37,7 +33,7 @@ export function fetchPutProfileReducer(state = initialState, action) {
         }
         return
       }
-      case RESOLVED: {
+      case putProfileResolved.toString: {
         if (draft.status === 'pending' || draft.status === 'updating') {
           draft.data = action.payload
           draft.status = 'resolved'
@@ -45,7 +41,7 @@ export function fetchPutProfileReducer(state = initialState, action) {
         }
         return
       }
-      case REJECTED: {
+      case putProfileRejected.toString: {
         if (draft.status === 'pending' || draft.status === 'updating') {
           draft.error = action.payload
           draft.data = null

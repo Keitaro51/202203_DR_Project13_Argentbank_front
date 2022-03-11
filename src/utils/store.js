@@ -7,7 +7,7 @@ import { fetchPostProfileReducer } from '../features/fetchUser'
 import { fetchPutProfileReducer } from '../features/fetchUpdate'
 import { userReducer } from '../features/user'
 
-export default configureStore({
+export const store = configureStore({
   reducer: {
     fetchLogin: fetchLoginReducer,
     fetchUser: fetchPostProfileReducer,

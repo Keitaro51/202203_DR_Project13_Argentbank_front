@@ -1,5 +1,5 @@
 //Redux action creators and reducer for view profile fetch request statement
-
+import { createAction } from '@reduxjs/toolkit'
 import { produce } from 'immer'
 import { postProfile } from '../services/postData'
 import { selectFetchStatus } from '../utils/selectors'
@@ -10,18 +10,14 @@ const initialState = {
   error: null,
 }
 
-const FETCHING = 'postProfile/fetching'
-const RESOLVED = 'postProfile/resolved'
-const REJECTED = 'postProfile/rejected'
-
-const postProfileFetching = () => ({ type: FETCHING })
-const postProfileResolved = (data) => ({ type: RESOLVED, payload: data })
-const postProfileRejected = (error) => ({ type: REJECTED, payload: error })
+const postProfileFetching = createAction('postProfile/fetching')
+const postProfileResolved = createAction('postProfile/resolved')
+const postProfileRejected = createAction('postProfile/rejected')
 
 export function fetchPostProfileReducer(state = initialState, action) {
   return produce(state, (draft) => {
     switch (action.type) {
-      case FETCHING: {
+      case postProfileFetching.toString(): {
         if (draft.status === 'void') {
           draft.status = 'pending'
           return
@@ -37,7 +33,7 @@ export function fetchPostProfileReducer(state = initialState, action) {
         }
         return
       }
-      case RESOLVED: {
+      case postProfileResolved.toString(): {
         if (draft.status === 'pending' || draft.status === 'updating') {
           draft.data = action.payload
           draft.status = 'resolved'
@@ -45,7 +41,7 @@ export function fetchPostProfileReducer(state = initialState, action) {
         }
         return
       }
-      case REJECTED: {
+      case postProfileRejected.toString(): {
         if (draft.status === 'pending' || draft.status === 'updating') {
           draft.error = action.payload
           draft.data = null
