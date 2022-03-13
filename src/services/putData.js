@@ -9,8 +9,8 @@ import { put } from '../helpers/fetchWrappers'
  *
  * @return  {object}  update confirmation
  */
-const putProfile = (body, bearerToken) => {
-  return put(`${PROFILE_ROUTE}`, body, bearerToken)
+const putProfile = async (body, bearerToken) => {
+  return await put(`${PROFILE_ROUTE}`, body, bearerToken)
 }
 
 export { putProfile }

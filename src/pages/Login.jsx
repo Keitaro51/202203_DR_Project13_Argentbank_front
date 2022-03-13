@@ -1,6 +1,6 @@
 import { USER } from '../config'
 
-import { useStore } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { fetchOrUpdateLogin } from '../features/fetchLogin'
 
@@ -12,20 +12,22 @@ import FormInput from '../components/FormInput'
  * @component
  */
 function Login() {
-  let navigate = useNavigate()
-  const store = useStore()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   /**
    * submit login form and redirect to user page
    * @param {object} e  event
    */
-  async function handleClick(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
-    //TODO await necessaire? useeffect necessaire?
-    await fetchOrUpdateLogin(store, {
-      email: USER.email,
-      password: USER.password,
-    })
+    //TODO if remove await as suggested, navigate doesn't work properly
+    await dispatch(
+      fetchOrUpdateLogin({
+        email: document.getElementById('username').value,
+        password: document.getElementById('password').value,
+      })
+    )
     navigate('/user')
   }
 
@@ -34,7 +36,7 @@ function Login() {
       <section className="sign-in-content">
         <i className="fa fa-user-circle sign-in-icon"></i>
         <h1>Sign In</h1>
-        <form onSubmit={handleClick}>
+        <form onSubmit={handleSubmit}>
           <FormInput
             content="Username"
             type="text"

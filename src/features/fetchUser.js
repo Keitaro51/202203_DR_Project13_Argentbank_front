@@ -1,6 +1,5 @@
 //Redux action creators and reducer for view profile fetch request statement
 import { createAction, createReducer } from '@reduxjs/toolkit'
-import { produce } from 'immer'
 import { postProfile } from '../services/postData'
 import { selectFetchStatus } from '../utils/selectors'
 
@@ -59,17 +58,19 @@ export default createReducer(initialState, (builder) => {
  *
  * @return  {void}         exits the function if a request is already in progress
  */
-export async function fetchOrUpdatePostProfile(store, bearer) {
-  const status = selectFetchStatus(store.getState(), 'fetchUser')
-  if (status === 'pending' || status === 'updating') {
-    return
-  }
-  store.dispatch(postProfileFetching())
-  try {
-    const data = await postProfile(bearer)
-    store.dispatch(postProfileResolved(data))
-    store.dispatch({ type: 'userinfo', payload: data })
-  } catch (error) {
-    store.dispatch(postProfileRejected(error))
+export function fetchOrUpdatePostProfile(bearer) {
+  return async (dispatch, getState) => {
+    const status = selectFetchStatus(getState(), 'fetchUser')
+    if (status === 'pending' || status === 'updating') {
+      return
+    }
+    dispatch(postProfileFetching())
+    try {
+      const data = await postProfile(bearer)
+      dispatch(postProfileResolved(data))
+      dispatch({ type: 'userinfo', payload: data })
+    } catch (error) {
+      dispatch(postProfileRejected(error))
+    }
   }
 }

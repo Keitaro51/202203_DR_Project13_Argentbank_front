@@ -1,6 +1,6 @@
 import propTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
-import { useStore, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { fetchOrUpdatePutProfile } from '../features/fetchUpdate'
 
 /**
@@ -12,7 +12,6 @@ import { fetchOrUpdatePutProfile } from '../features/fetchUpdate'
  * @component
  */
 function Button({ content, classStyle, type, clickAction }) {
-  const store = useStore()
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -28,10 +27,12 @@ function Button({ content, classStyle, type, clickAction }) {
       //TODO add more validation and empty field case
       const newFirstName = document.getElementById('firstName').value
       const newLastName = document.getElementById('lastName').value
-      fetchOrUpdatePutProfile(store, {
-        firstName: newFirstName,
-        lastName: newLastName,
-      })
+      dispatch(
+        fetchOrUpdatePutProfile({
+          firstName: newFirstName,
+          lastName: newLastName,
+        })
+      )
     }
     //TODO toggleEditMode still active if user leave page manually
     if (clickAction === 'cancel') {

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSelector, useStore } from 'react-redux'
+import { useSelector, useStore, useDispatch } from 'react-redux'
 import {
   selectIdentity,
   selectBearerToken,
@@ -18,18 +18,18 @@ import Edit from '../components/Edit'
  * @component
  */
 function User() {
-  const store = useStore()
+  const dispatch = useDispatch()
   const bearerToken = useSelector(selectBearerToken)
   const isEditing = useSelector(selectIsEditing)
   const navigate = useNavigate()
 
   useEffect(() => {
     if (bearerToken) {
-      fetchOrUpdatePostProfile(store, bearerToken)
+      dispatch(fetchOrUpdatePostProfile(bearerToken))
     } else {
       navigate('/login')
     }
-  }, [store, bearerToken, navigate])
+  }, [dispatch, bearerToken, navigate])
 
   const firstName = useSelector(selectIdentity('firstName'))
   const lastName = useSelector(selectIdentity('lastName'))

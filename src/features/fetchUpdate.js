@@ -1,6 +1,5 @@
 //Redux action creators and reducer for update profile fetch request statement
 import { createAction, createReducer } from '@reduxjs/toolkit'
-import { produce } from 'immer'
 import { putProfile } from '../services/putData'
 import { selectFetchStatus, selectBearerToken } from '../utils/selectors'
 
@@ -54,23 +53,24 @@ export default createReducer(initialState, (builder) => {
 /**
  * Manage update profile fetch request redux statement
  *
- * @param   {object}  store  current redux store
  * @param   {object}  body   request body
  *
  * @return  {void}         exits the function if a request is already in progress
  */
-export async function fetchOrUpdatePutProfile(store, body) {
-  const status = selectFetchStatus(store.getState(), 'fetchUpdate')
-  const token = selectBearerToken(store.getState())
-  if (status === 'pending' || status === 'updating') {
-    return
-  }
-  try {
-    store.dispatch({ type: 'update', payload: { body } })
-    store.dispatch(putProfileFetching())
-    const data = await putProfile(body, token)
-    store.dispatch(putProfileResolved(data))
-  } catch (error) {
-    store.dispatch(putProfileRejected(error))
+export function fetchOrUpdatePutProfile(body) {
+  return async (dispatch, getState) => {
+    const status = selectFetchStatus(getState(), 'fetchUpdate')
+    const token = selectBearerToken(getState())
+    if (status === 'pending' || status === 'updating') {
+      return
+    }
+    try {
+      dispatch({ type: 'update', payload: { body } })
+      dispatch(putProfileFetching())
+      const data = await putProfile(body, token)
+      dispatch(putProfileResolved(data))
+    } catch (error) {
+      dispatch(putProfileRejected(error))
+    }
   }
 }
