@@ -8,7 +8,7 @@
  * @return  {string}           stored first or last name
  */
 export const selectIdentity = (_stName) => {
-  return (state) => state.user[_stName]
+  return (state) => state.currentUser[_stName]
 }
 
 /**
@@ -16,21 +16,21 @@ export const selectIdentity = (_stName) => {
  *
  * @return {boolean}  true if bearer token exist in state
  */
-export const selectIsConnected = (state) => state.user.bearerToken !== ''
+export const selectIsConnected = (state) => state.currentUser.bearerToken !== ''
 
 /**
  * Select bearer token in state
  *
  * @return {string}  connected user's bearer token
  */
-export const selectBearerToken = (state) => state.user.bearerToken
+export const selectBearerToken = (state) => state.currentUser.bearerToken
 
 /**
  * check if interface is or not in editing mode
  *
  * @return {boolean}  true if edit mode is active
  */
-export const selectIsEditing = (state) => state.user.isEditing
+export const selectIsEditing = (state) => state.currentUser.isEditing
 
 /**
  * select fetch request state

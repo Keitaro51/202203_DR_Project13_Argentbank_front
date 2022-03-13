@@ -1,21 +1,17 @@
 //Redux action creators and reducer for view profile fetch request statement
-import { createAction, createReducer } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import { postProfile } from '../services/postData'
 import { selectFetchStatus } from '../utils/selectors'
 
-const initialState = {
-  status: 'void',
-  data: null,
-  error: null,
-}
-
-const postProfileFetching = createAction('postProfile/fetching')
-const postProfileResolved = createAction('postProfile/resolved')
-const postProfileRejected = createAction('postProfile/rejected')
-
-export default createReducer(initialState, (builder) => {
-  return builder
-    .addCase(postProfileFetching, (draft) => {
+const { actions, reducer } = createSlice({
+  name: 'postProfile',
+  initialState: {
+    status: 'void',
+    data: null,
+    error: null,
+  },
+  reducers: {
+    fetching: (draft) => {
       if (draft.status === 'void') {
         draft.status = 'pending'
         return
@@ -30,16 +26,16 @@ export default createReducer(initialState, (builder) => {
         return
       }
       return
-    })
-    .addCase(postProfileResolved, (draft, action) => {
+    },
+    resolved: (draft, action) => {
       if (draft.status === 'pending' || draft.status === 'updating') {
         draft.data = action.payload
         draft.status = 'resolved'
         return
       }
       return
-    })
-    .addCase(postProfileRejected, (draft, action) => {
+    },
+    rejected: (draft, action) => {
       if (draft.status === 'pending' || draft.status === 'updating') {
         draft.error = action.payload
         draft.data = null
@@ -47,8 +43,11 @@ export default createReducer(initialState, (builder) => {
         return
       }
       return
-    })
+    },
+  },
 })
+
+export default reducer
 
 /**
  * Manage view profile fetch request redux statement
@@ -60,17 +59,17 @@ export default createReducer(initialState, (builder) => {
  */
 export function fetchOrUpdatePostProfile(bearer) {
   return async (dispatch, getState) => {
-    const status = selectFetchStatus(getState(), 'fetchUser')
+    const status = selectFetchStatus(getState(), 'fetchProfile')
     if (status === 'pending' || status === 'updating') {
       return
     }
-    dispatch(postProfileFetching())
+    dispatch(actions.fetching())
     try {
       const data = await postProfile(bearer)
-      dispatch(postProfileResolved(data))
-      dispatch({ type: 'userinfo', payload: data })
+      dispatch(actions.resolved(data))
+      dispatch({ type: 'getProfile', payload: data })
     } catch (error) {
-      dispatch(postProfileRejected(error))
+      dispatch(actions.rejected(error))
     }
   }
 }

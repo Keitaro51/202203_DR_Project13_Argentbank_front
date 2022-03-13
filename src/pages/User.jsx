@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSelector, useStore, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   selectIdentity,
   selectBearerToken,
   selectIsEditing,
 } from '../utils/selectors'
 
-import { fetchOrUpdatePostProfile } from '../features/fetchUser'
+import { fetchOrUpdatePostProfile } from '../features/fetchProfile'
 
 import Account from '../components/Account'
 import Button from '../components/Button'

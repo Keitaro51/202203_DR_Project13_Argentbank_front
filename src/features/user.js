@@ -10,7 +10,7 @@ const initialState = {
 }
 
 export const loginAction = createAction('login')
-export const userInfoAction = createAction('userinfo')
+export const getProfileAction = createAction('getProfile')
 export const signOutAction = createAction('signout')
 export const toggleEditMode = createAction('toggleEditMode')
 export const updateUser = createAction('update')
@@ -21,7 +21,7 @@ export default createReducer(initialState, (builder) => {
       draft.bearerToken = action.payload.body.token
       return
     })
-    .addCase(userInfoAction, (draft, action) => {
+    .addCase(getProfileAction, (draft, action) => {
       draft.firstName = action.payload.body.firstName
       draft.lastName = action.payload.body.lastName
       draft.email = action.payload.body.email
