@@ -16,7 +16,7 @@ const post = (url, body, bearerToken) => {
   return axios
     .post(url, body)
     .then(handleResponse)
-    .catch((error) => console.log(error))
+    .catch((error) => error)
 }
 
 /**
@@ -35,7 +35,7 @@ const put = (url, body, bearerToken) => {
   return axios
     .put(url, body, { headers })
     .then(handleResponse)
-    .catch((error) => console.log(error))
+    .catch((error) => error)
 }
 
 /**

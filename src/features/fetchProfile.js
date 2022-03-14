@@ -66,10 +66,14 @@ export function fetchOrUpdatePostProfile(bearer) {
     dispatch(actions.fetching())
     try {
       const data = await postProfile(bearer)
-      dispatch(actions.resolved(data))
-      dispatch({ type: 'getProfile', payload: data })
+      if (data.status !== 200) {
+        throw new Error(data.message)
+      } else {
+        dispatch(actions.resolved(data))
+        dispatch({ type: 'getProfile', payload: data })
+      }
     } catch (error) {
-      dispatch(actions.rejected(error))
+      dispatch(actions.rejected(error.message))
     }
   }
 }

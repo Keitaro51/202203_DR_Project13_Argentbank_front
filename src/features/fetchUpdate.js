@@ -67,9 +67,13 @@ export function fetchOrUpdatePutProfile(body) {
     try {
       dispatch({ type: 'update', payload: { body } })
       const data = await putProfile(body, token)
-      dispatch(actions.resolved(data))
+      if (data.status !== 200) {
+        throw new Error(data.message)
+      } else {
+        dispatch(actions.resolved(data))
+      }
     } catch (error) {
-      dispatch(actions.rejected(error))
+      dispatch(actions.rejected(error.message))
     }
   }
 }

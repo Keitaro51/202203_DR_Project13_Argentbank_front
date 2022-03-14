@@ -65,10 +65,14 @@ export function fetchOrUpdateLogin(body) {
     dispatch(actions.fetching())
     try {
       const data = await postLogin(body)
-      dispatch(actions.resolved(data))
-      dispatch({ type: 'login', payload: data })
+      if (data.status !== 200) {
+        throw new Error(data.message)
+      } else {
+        dispatch(actions.resolved(data))
+        dispatch({ type: 'login', payload: data })
+      }
     } catch (error) {
-      dispatch(actions.rejected(error))
+      dispatch(actions.rejected(error.message))
     }
   }
 }
