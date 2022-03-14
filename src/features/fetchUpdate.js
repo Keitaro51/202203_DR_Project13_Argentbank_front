@@ -1,54 +1,53 @@
 //Redux action creators and reducer for update profile fetch request statement
-import { createAction, createReducer } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import { putProfile } from '../services/putData'
 import { selectFetchStatus, selectBearerToken } from '../utils/selectors'
 
-const initialState = {
-  status: 'void',
-  data: null,
-  error: null,
-}
-
-const putProfileFetching = createAction('putProfile/fetching')
-const putProfileResolved = createAction('putProfile/resolved')
-const putProfileRejected = createAction('putProfile/rejected')
-
-export default createReducer(initialState, (builder) => {
-  return builder
-    .addCase(putProfileFetching, (draft) => {
-      if (draft.status === 'void') {
-        draft.status = 'pending'
+const { actions, reducer } = createSlice({
+  name: 'updateProfile',
+  initialState: {
+    status: 'void',
+    data: null,
+    error: null,
+  },
+  reducers: {
+    fetching: (state) => {
+      if (state.status === 'void') {
+        state.status = 'pending'
         return
       }
-      if (draft.status === 'rejected') {
-        draft.error = null
-        draft.status = 'pending'
+      if (state.status === 'rejected') {
+        state.error = null
+        state.status = 'pending'
         return
       }
-      if (draft.status === 'resolved') {
-        draft.status = 'updating'
+      if (state.status === 'resolved') {
+        state.status = 'updating'
         return
       }
       return
-    })
-    .addCase(putProfileResolved, (draft, action) => {
-      if (draft.status === 'pending' || draft.status === 'updating') {
-        draft.data = action.payload
-        draft.status = 'resolved'
+    },
+    resolved: (state, action) => {
+      if (state.status === 'pending' || state.status === 'updating') {
+        state.data = action.payload
+        state.status = 'resolved'
         return
       }
       return
-    })
-    .addCase(putProfileRejected, (draft, action) => {
-      if (draft.status === 'pending' || draft.status === 'updating') {
-        draft.error = action.payload
-        draft.data = null
-        draft.status = 'rejected'
+    },
+    rejected: (state, action) => {
+      if (state.status === 'pending' || state.status === 'updating') {
+        state.error = action.payload
+        state.data = null
+        state.status = 'rejected'
         return
       }
       return
-    })
+    },
+  },
 })
+
+export default reducer
 
 /**
  * Manage update profile fetch request redux statement
@@ -64,13 +63,13 @@ export function fetchOrUpdatePutProfile(body) {
     if (status === 'pending' || status === 'updating') {
       return
     }
+    dispatch(actions.fetching())
     try {
       dispatch({ type: 'update', payload: { body } })
-      dispatch(putProfileFetching())
       const data = await putProfile(body, token)
-      dispatch(putProfileResolved(data))
+      dispatch(actions.resolved(data))
     } catch (error) {
-      dispatch(putProfileRejected(error))
+      dispatch(actions.rejected(error))
     }
   }
 }
