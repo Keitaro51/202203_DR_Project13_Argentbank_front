@@ -22,13 +22,10 @@ function User() {
   const bearerToken = useSelector(selectBearerToken)
   const isEditing = useSelector(selectIsEditing)
   const navigate = useNavigate()
-
   useEffect(() => {
-    if (bearerToken) {
-      dispatch(fetchOrUpdatePostProfile(bearerToken))
-    } else {
-      navigate('/login')
-    }
+    bearerToken
+      ? dispatch(fetchOrUpdatePostProfile(bearerToken))
+      : navigate('/login')
   }, [dispatch, bearerToken, navigate])
 
   const firstName = useSelector(selectIdentity('firstName'))

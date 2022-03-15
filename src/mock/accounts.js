@@ -1,12 +1,14 @@
+import { v4 } from 'node-uuid'
+
 export const accounts = [
   {
-    id: '164554',
+    id: v4(),
     title: 'Argent Bank Checking (x8349)',
     amount: '$2,082.79',
     description: 'Available Balance',
     transactions: [
       {
-        id: 1,
+        id: v4(),
         date: '1983-06-18T18:25:43-05:00',
         description: 'Golden Sun Bakery',
         amount: 20,
@@ -15,7 +17,7 @@ export const accounts = [
         notes: 'blabla',
       },
       {
-        id: 2,
+        id: v4(),
         date: '1983-06-18T18:25:43-05:00',
         description: 'Casino',
         amount: 30,
@@ -26,13 +28,13 @@ export const accounts = [
     ],
   },
   {
-    id: '373676',
+    id: v4(),
     title: 'Argent Bank Savings (x6712)',
     amount: '$10,928.42',
     description: 'Available Balance',
     transactions: [
       {
-        id: 3,
+        id: v4(),
         date: '1983-06-18T18:25:43-05:00',
         description: 'Golden Sun Bakery',
         amount: 20,
@@ -41,7 +43,7 @@ export const accounts = [
         notes: 'blabla',
       },
       {
-        id: 4,
+        id: v4(),
         date: '1983-06-18T18:25:43-05:00',
         description: 'Casino',
         amount: 30,
@@ -52,13 +54,13 @@ export const accounts = [
     ],
   },
   {
-    id: '345362',
+    id: v4(),
     title: 'Argent Bank Credit Card (x8349)',
     amount: '$184.30',
     description: 'Current Balance',
     transactions: [
       {
-        id: 5,
+        id: v4(),
         date: '1983-06-18T18:25:43-05:00',
         description: 'Golden Sun Bakery',
         amount: 20,
@@ -67,7 +69,7 @@ export const accounts = [
         notes: 'blabla',
       },
       {
-        id: 6,
+        id: v4(),
         date: '1983-06-18T18:25:43-05:00',
         description: 'Casino',
         amount: 30,

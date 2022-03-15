@@ -1,8 +1,10 @@
 import { USER } from '../config'
 
-import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { fetchOrUpdateLogin } from '../features/fetchLogin'
+import { selectIsConnected } from '../utils/selectors'
 
 import Button from '../components/Button'
 import FormInput from '../components/FormInput'
@@ -14,6 +16,11 @@ import FormInput from '../components/FormInput'
 function Login() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+
+  const isConnected = useSelector(selectIsConnected)
+  useEffect(() => {
+    isConnected && navigate('/user')
+  }, [isConnected, navigate])
 
   /**
    * submit login form and redirect to user page

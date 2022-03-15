@@ -4,11 +4,12 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from './utils/store'
 
-import Header from './components/header'
+import Header from './components/Header'
 import Footer from './components/Footer'
 import Login from './pages/Login'
 import Home from './pages/Home'
 import User from './pages/User'
+import NotFound from './pages/NotFound'
 import Transaction from './pages/Transaction'
 
 import './style/main.css'
@@ -25,7 +26,7 @@ ReactDOM.render(
           <Route path="/" element={<Home />} />
           <Route path="/user" element={<User />} />
           <Route path="/transaction/:id" element={<Transaction />} />
-          {/* <Route path="*" element={<NotFound />} /> */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
       <Footer />

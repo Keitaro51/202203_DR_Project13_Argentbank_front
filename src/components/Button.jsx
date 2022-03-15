@@ -42,6 +42,9 @@ function Button({ content, classStyle, type, clickAction }) {
       const accountId = e.target.parentNode.dataset['id']
       navigate(`/transaction/${accountId}`)
     }
+    if (clickAction === 'return') {
+      navigate('/')
+    }
   }
 
   return (
