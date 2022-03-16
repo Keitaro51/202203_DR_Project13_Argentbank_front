@@ -1,7 +1,7 @@
 import propTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { fetchOrUpdatePutProfile } from '../features/fetchUpdate'
+import * as userActions from '../features/user'
 
 /**
  * button component
@@ -21,22 +21,11 @@ function Button({ content, classStyle, type, clickAction }) {
    */
   function clickManager(e) {
     if (clickAction === 'toggleEditMode') {
-      dispatch({ type: 'toggleEditMode' })
+      dispatch(userActions.toggleEditMode())
     }
-    if (clickAction === 'update') {
-      //TODO add more validation and empty field case
-      const newFirstName = document.getElementById('firstName').value
-      const newLastName = document.getElementById('lastName').value
-      dispatch(
-        fetchOrUpdatePutProfile({
-          firstName: newFirstName,
-          lastName: newLastName,
-        })
-      )
-    }
-    //TODO toggleEditMode still active if user leave page manually
+    //FIXME toggleEditMode still active if user leave page manually - how to act before component destroyed?
     if (clickAction === 'cancel') {
-      dispatch({ type: 'toggleEditMode' })
+      dispatch(userActions.toggleEditMode())
     }
     if (clickAction === 'transactions') {
       const accountId = e.target.parentNode.dataset['id']

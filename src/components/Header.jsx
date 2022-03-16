@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectIdentity, selectIsConnected } from '../utils/selectors'
+import * as userActions from '../features/user'
 
 import logo from '../assets/argentBankLogo.png'
 
@@ -35,7 +36,7 @@ function Header() {
             <Link
               to="/"
               className="main-nav-item"
-              onClick={() => dispatch({ type: 'signout' })}
+              onClick={() => dispatch(userActions.signout())}
             >
               <i className="fa fa-sign-out"></i>
               Sign Out

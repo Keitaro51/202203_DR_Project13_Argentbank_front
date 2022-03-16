@@ -9,8 +9,8 @@ import { post } from '../helpers/fetchWrappers'
  *
  * @return  {object}  response with bearer token if fullfilled
  */
-export const postLogin = (body) => {
-  return post(`${LOGIN_ROUTE}`, body)
+export const postLogin = async (body) => {
+  return await post(`${LOGIN_ROUTE}`, body)
 }
 
 /**
@@ -20,8 +20,8 @@ export const postLogin = (body) => {
  *
  * @return  {object}  creation confirmation
  */
-export const postSignUp = (body) => {
-  return post(`${SIGNUP_ROUTE}`, body)
+export const postSignUp = async (body) => {
+  return await post(`${SIGNUP_ROUTE}`, body)
 }
 
 /**

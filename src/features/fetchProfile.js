@@ -2,6 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { postProfile } from '../services/postData'
 import { selectFetchStatus } from '../utils/selectors'
+import * as userActions from '../features/user'
 
 const { actions, reducer } = createSlice({
   name: 'postProfile',
@@ -52,12 +53,19 @@ export default reducer
 /**
  * Manage view profile fetch request redux statement
  *
- * @param   {object}  store  current redux store
  * @param   {object}  body   request body
  *
- * @return  {void}         exits the function if a request is already in progress
+ * @return  {void}         execute request and track request state
  */
 export function fetchOrUpdatePostProfile(bearer) {
+  /**
+   * Launch api request to service file
+   *
+   * @param   {function}  dispatch  reudx dispatch method
+   * @param   {function}  getState  redux getState method
+   *
+   * @return  {void}            exit if request already in progress
+   */
   return async (dispatch, getState) => {
     const status = selectFetchStatus(getState(), 'fetchProfile')
     if (status === 'pending' || status === 'updating') {
@@ -70,7 +78,7 @@ export function fetchOrUpdatePostProfile(bearer) {
         throw new Error(data.message)
       } else {
         dispatch(actions.resolved(data))
-        dispatch({ type: 'getProfile', payload: data })
+        dispatch(userActions.getProfile(data))
       }
     } catch (error) {
       dispatch(actions.rejected(error.message))

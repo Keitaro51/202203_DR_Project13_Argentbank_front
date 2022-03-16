@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: features/fetchUser.js</title>
+    <title>JSDoc: Source: features/fetchProfile.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: features/fetchUser.js</h1>
+    <h1 class="page-title">Source: features/fetchProfile.js</h1>
 
     
 
@@ -27,87 +27,90 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>//Redux action creators and reducer for view profile fetch request statement
-
-import { produce } from 'immer'
+import { createSlice } from '@reduxjs/toolkit'
 import { postProfile } from '../services/postData'
 import { selectFetchStatus } from '../utils/selectors'
+import * as userActions from '../features/user'
 
-const initialState = {
-  status: 'void',
-  data: null,
-  error: null,
-}
-
-const FETCHING = 'postProfile/fetching'
-const RESOLVED = 'postProfile/resolved'
-const REJECTED = 'postProfile/rejected'
-
-const postProfileFetching = () => ({ type: FETCHING })
-const postProfileResolved = (data) => ({ type: RESOLVED, payload: data })
-const postProfileRejected = (error) => ({ type: REJECTED, payload: error })
-
-export function fetchPostProfileReducer(state = initialState, action) {
-  return produce(state, (draft) => {
-    switch (action.type) {
-      case FETCHING: {
-        if (draft.status === 'void') {
-          draft.status = 'pending'
-          return
-        }
-        if (draft.status === 'rejected') {
-          draft.error = null
-          draft.status = 'pending'
-          return
-        }
-        if (draft.status === 'resolved') {
-          draft.status = 'updating'
-          return
-        }
+const { actions, reducer } = createSlice({
+  name: 'postProfile',
+  initialState: {
+    status: 'void',
+    data: null,
+    error: null,
+  },
+  reducers: {
+    fetching: (draft) => {
+      if (draft.status === 'void') {
+        draft.status = 'pending'
         return
       }
-      case RESOLVED: {
-        if (draft.status === 'pending' || draft.status === 'updating') {
-          draft.data = action.payload
-          draft.status = 'resolved'
-          return
-        }
+      if (draft.status === 'rejected') {
+        draft.error = null
+        draft.status = 'pending'
         return
       }
-      case REJECTED: {
-        if (draft.status === 'pending' || draft.status === 'updating') {
-          draft.error = action.payload
-          draft.data = null
-          draft.status = 'rejected'
-          return
-        }
+      if (draft.status === 'resolved') {
+        draft.status = 'updating'
         return
       }
-      default:
+      return
+    },
+    resolved: (draft, action) => {
+      if (draft.status === 'pending' || draft.status === 'updating') {
+        draft.data = action.payload
+        draft.status = 'resolved'
         return
-    }
-  })
-}
+      }
+      return
+    },
+    rejected: (draft, action) => {
+      if (draft.status === 'pending' || draft.status === 'updating') {
+        draft.error = action.payload
+        draft.data = null
+        draft.status = 'rejected'
+        return
+      }
+      return
+    },
+  },
+})
+
+export default reducer
 
 /**
  * Manage view profile fetch request redux statement
  *
- * @param   {object}  store  current redux store
  * @param   {object}  body   request body
  *
- * @return  {void}         exits the function if a request is already in progress
+ * @return  {void}         execute request and track request state
  */
-export async function fetchOrUpdatePostProfile(store, bearer) {
-  const status = selectFetchStatus(store.getState(), 'fetchUser')
-  if (status === 'pending' || status === 'updating') {
-    return
-  }
-  store.dispatch(postProfileFetching())
-  try {
-    const data = await postProfile(bearer)
-    store.dispatch(postProfileResolved(data))
-    store.dispatch({ type: 'userinfo', payload: data })
-  } catch (error) {
-    store.dispatch(postProfileRejected(error))
+export function fetchOrUpdatePostProfile(bearer) {
+  /**
+   * Launch api request to service file
+   *
+   * @param   {function}  dispatch  reudx dispatch method
+   * @param   {function}  getState  redux getState method
+   *
+   * @return  {void}            exit if request already in progress
+   */
+  return async (dispatch, getState) => {
+    const status = selectFetchStatus(getState(), 'fetchProfile')
+    if (status === 'pending' || status === 'updating') {
+      return
+    }
+    dispatch(actions.fetching())
+    try {
+      const data = await postProfile(bearer)
+      if (data.status !== 200) {
+        throw new Error(data.message)
+      } else {
+        dispatch(actions.resolved(data))
+        dispatch(userActions.getProfile(data))
+      }
+    } catch (error) {
+      dispatch(actions.rejected(error.message))
+    }
   }
 }
 </code></pre>
@@ -126,7 +129,7 @@ export async function fetchOrUpdatePostProfile(store, bearer) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Thu Mar 10 2022 19:29:33 GMT+0100 (heure normale d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Wed Mar 16 2022 17:53:34 GMT+0100 (heure normale d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>

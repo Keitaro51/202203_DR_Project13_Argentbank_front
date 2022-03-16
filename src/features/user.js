@@ -1,5 +1,5 @@
 //Redux action creators and reducer for current user statement
-import { createAction, createReducer } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   firstName: '',
@@ -8,36 +8,36 @@ const initialState = {
   bearerToken: '',
   isEditing: false,
 }
-
-export const loginAction = createAction('login')
-export const getProfileAction = createAction('getProfile')
-export const signOutAction = createAction('signout')
-export const toggleEditMode = createAction('toggleEditMode')
-export const updateUser = createAction('update')
-
-export default createReducer(initialState, (builder) => {
-  return builder
-    .addCase(loginAction, (draft, action) => {
-      draft.bearerToken = action.payload.body.token
+const { actions, reducer } = createSlice({
+  name: 'currentUser',
+  initialState,
+  reducers: {
+    login: (state, action) => {
+      state.bearerToken = action.payload.body.token
       return
-    })
-    .addCase(getProfileAction, (draft, action) => {
-      draft.firstName = action.payload.body.firstName
-      draft.lastName = action.payload.body.lastName
-      draft.email = action.payload.body.email
-      return
-    })
-    .addCase(toggleEditMode, (draft) => {
-      draft.isEditing = !draft.isEditing
-      return
-    })
-    .addCase(updateUser, (draft, action) => {
-      draft.firstName = action.payload.body.firstName
-      draft.lastName = action.payload.body.lastName
-      draft.isEditing = !draft.isEditing
-      return
-    })
-    .addCase(signOutAction, () => {
+    },
+    signout: () => {
       return initialState
-    })
+    },
+    getProfile: (state, action) => {
+      state.firstName = action.payload.body.firstName
+      state.lastName = action.payload.body.lastName
+      state.email = action.payload.body.email
+      return
+    },
+    update: (state, action) => {
+      state.firstName = action.payload.firstName
+      state.lastName = action.payload.lastName
+      state.isEditing = !state.isEditing
+      return
+    },
+    toggleEditMode: (state) => {
+      state.isEditing = !state.isEditing
+      return
+    },
+  },
 })
+
+export const { login, signout, getProfile, update, toggleEditMode } = actions
+
+export default reducer

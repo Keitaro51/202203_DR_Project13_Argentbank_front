@@ -2,6 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { postLogin } from '../services/postData'
 import { selectFetchStatus } from '../utils/selectors'
+import * as userActions from '../features/user'
 
 const { actions, reducer } = createSlice({
   name: 'login',
@@ -54,10 +55,19 @@ export default reducer
  *
  * @param   {object}  body   request body
  *
- * @return  {void}         exits the function if a request is already in progress
+ * @return  {void}         execute request and track request state
  */
 export function fetchOrUpdateLogin(body) {
+  /**
+   * Launch api request to service file
+   *
+   * @param   {function}  dispatch  reudx dispatch method
+   * @param   {function}  getState  redux getState method
+   *
+   * @return  {void}            exit if request already in progress
+   */
   return async (dispatch, getState) => {
+    console.log(dispatch)
     const status = selectFetchStatus(getState(), 'fetchLogin')
     if (status === 'pending' || status === 'updating') {
       return
@@ -69,7 +79,7 @@ export function fetchOrUpdateLogin(body) {
         throw new Error(data.message)
       } else {
         dispatch(actions.resolved(data))
-        dispatch({ type: 'login', payload: data })
+        dispatch(userActions.login(data))
       }
     } catch (error) {
       dispatch(actions.rejected(error.message))

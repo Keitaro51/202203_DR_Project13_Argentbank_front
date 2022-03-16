@@ -24,12 +24,12 @@ function Login() {
 
   /**
    * submit login form and redirect to user page
+   *
    * @param {object} e  event
    */
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault()
-    //TODO if remove await as suggested, navigate doesn't work properly
-    await dispatch(
+    dispatch(
       fetchOrUpdateLogin({
         email: document.getElementById('username').value,
         password: document.getElementById('password').value,

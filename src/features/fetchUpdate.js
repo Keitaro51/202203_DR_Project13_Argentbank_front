@@ -2,6 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { putProfile } from '../services/putData'
 import { selectFetchStatus, selectBearerToken } from '../utils/selectors'
+import * as userActions from '../features/user'
 
 const { actions, reducer } = createSlice({
   name: 'updateProfile',
@@ -54,9 +55,17 @@ export default reducer
  *
  * @param   {object}  body   request body
  *
- * @return  {void}         exits the function if a request is already in progress
+ * @return  {void}         execute request and track request state
  */
 export function fetchOrUpdatePutProfile(body) {
+  /**
+   * Launch api request to service file
+   *
+   * @param   {function}  dispatch  reudx dispatch method
+   * @param   {function}  getState  redux getState method
+   *
+   * @return  {void}            exit if request already in progress
+   */
   return async (dispatch, getState) => {
     const status = selectFetchStatus(getState(), 'fetchUpdate')
     const token = selectBearerToken(getState())
@@ -65,12 +74,12 @@ export function fetchOrUpdatePutProfile(body) {
     }
     dispatch(actions.fetching())
     try {
-      dispatch({ type: 'update', payload: { body } })
       const data = await putProfile(body, token)
       if (data.status !== 200) {
         throw new Error(data.message)
       } else {
         dispatch(actions.resolved(data))
+        dispatch(userActions.update(data.body))
       }
     } catch (error) {
       dispatch(actions.rejected(error.message))
