@@ -67,7 +67,6 @@ export function fetchOrUpdateLogin(body) {
    * @return  {void}            exit if request already in progress
    */
   return async (dispatch, getState) => {
-    console.log(dispatch)
     const status = selectFetchStatus(getState(), 'fetchLogin')
     if (status === 'pending' || status === 'updating') {
       return

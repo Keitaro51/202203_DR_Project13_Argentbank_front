@@ -1,10 +1,9 @@
 //Redux store
 
 import { configureStore } from '@reduxjs/toolkit'
-import { loadState, saveState } from './localStorage'
+import { loadState, saveState } from './sessionStorage'
 
 import fetchLoginReducer from '../features/fetchLogin'
-import fetchPostProfileReducer from '../features/fetchProfile'
 import fetchPutProfileReducer from '../features/fetchUpdate'
 import userReducer from '../features/user'
 
@@ -13,7 +12,6 @@ const persistedState = loadState()
 export const store = configureStore({
   reducer: {
     fetchLogin: fetchLoginReducer,
-    fetchProfile: fetchPostProfileReducer,
     fetchUpdate: fetchPutProfileReducer,
     currentUser: userReducer,
   },

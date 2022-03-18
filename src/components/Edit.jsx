@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { selectIdentity } from '../utils/selectors'
+import { selectUserInfo } from '../utils/selectors'
 import { useDispatch } from 'react-redux'
 import { fetchOrUpdatePutProfile } from '../features/fetchUpdate'
 
@@ -11,8 +11,7 @@ import FormInput from '../components/FormInput'
  * @component
  */
 function Edit() {
-  const firstName = useSelector(selectIdentity('firstName'))
-  const lastName = useSelector(selectIdentity('lastName'))
+  const { firstName, lastName } = useSelector(selectUserInfo)
   const dispatch = useDispatch()
 
   /**
@@ -39,12 +38,7 @@ function Edit() {
         <FormInput type="text" idFor="lastName" prefill={lastName} />
       </div>
       <div className="button-row-wrapper">
-        <Button
-          content="Save"
-          type="submit"
-          classStyle="edit-button"
-          clickAction="update"
-        />
+        <Button content="Save" type="submit" classStyle="edit-button" />
         <Button
           type="button"
           content="Cancel"

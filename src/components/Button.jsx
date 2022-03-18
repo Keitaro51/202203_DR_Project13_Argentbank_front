@@ -23,10 +23,6 @@ function Button({ content, classStyle, type, clickAction }) {
     if (clickAction === 'toggleEditMode') {
       dispatch(userActions.toggleEditMode())
     }
-    //FIXME toggleEditMode still active if user leave page manually - how to act before component destroyed?
-    if (clickAction === 'cancel') {
-      dispatch(userActions.toggleEditMode())
-    }
     if (clickAction === 'transactions') {
       const accountId = e.target.parentNode.dataset['id']
       navigate(`/transaction/${accountId}`)

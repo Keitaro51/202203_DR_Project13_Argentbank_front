@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectIdentity, selectIsConnected } from '../utils/selectors'
+import { selectUserInfo, selectIsConnected } from '../utils/selectors'
 import * as userActions from '../features/user'
 
 import logo from '../assets/argentBankLogo.png'
@@ -11,7 +11,7 @@ import logo from '../assets/argentBankLogo.png'
  */
 function Header() {
   const isConnected = useSelector(selectIsConnected)
-  const firstName = useSelector(selectIdentity('firstName'))
+  const { firstName } = useSelector(selectUserInfo)
 
   const dispatch = useDispatch()
 

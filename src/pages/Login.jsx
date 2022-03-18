@@ -27,9 +27,9 @@ function Login() {
    *
    * @param {object} e  event
    */
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
-    dispatch(
+    await dispatch(
       fetchOrUpdateLogin({
         email: document.getElementById('username').value,
         password: document.getElementById('password').value,

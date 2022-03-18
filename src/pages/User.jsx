@@ -1,35 +1,50 @@
-import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import {
-  selectIdentity,
-  selectBearerToken,
-  selectIsEditing,
-} from '../utils/selectors'
-
-import { fetchOrUpdatePostProfile } from '../features/fetchProfile'
+import { postProfile } from '../services/postData'
+import { useQuery } from 'react-query'
+import { selectUserInfo } from '../utils/selectors'
+import * as userActions from '../features/user'
 
 import Account from '../components/Account'
 import Button from '../components/Button'
 import Edit from '../components/Edit'
+import { useEffect } from 'react'
 
 /**
  * user accounts page component
  * @component
  */
 function User() {
-  const dispatch = useDispatch()
-  const bearerToken = useSelector(selectBearerToken)
-  const isEditing = useSelector(selectIsEditing)
-  const navigate = useNavigate()
-  useEffect(() => {
-    bearerToken
-      ? dispatch(fetchOrUpdatePostProfile(bearerToken))
-      : navigate('/login')
-  }, [dispatch, bearerToken, navigate])
+  const { bearerToken, firstName, lastName, isEditing } =
+    useSelector(selectUserInfo)
 
-  const firstName = useSelector(selectIdentity('firstName'))
-  const lastName = useSelector(selectIdentity('lastName'))
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!bearerToken) {
+      navigate('/login')
+    }
+    return function cleanup() {
+      dispatch(userActions.toggleEditMode())
+    }
+  }, [bearerToken, navigate, dispatch])
+
+  useQuery('getUser', async () => {
+    try {
+      const data = await postProfile(bearerToken)
+      if (data.status !== 200) {
+        throw new Error(data.message)
+      } else {
+        dispatch(userActions.getProfile(data))
+        return data
+      }
+    } catch (error) {
+      console.log(error.message)
+      navigate('/error404')
+      dispatch(userActions.signout())
+    }
+  })
 
   return (
     <main className="main bg-dark">

@@ -1,7 +1,7 @@
 //Redux action creators and reducer for update profile fetch request statement
 import { createSlice } from '@reduxjs/toolkit'
 import { putProfile } from '../services/putData'
-import { selectFetchStatus, selectBearerToken } from '../utils/selectors'
+import { selectFetchStatus, selectUserInfo } from '../utils/selectors'
 import * as userActions from '../features/user'
 
 const { actions, reducer } = createSlice({
@@ -68,7 +68,7 @@ export function fetchOrUpdatePutProfile(body) {
    */
   return async (dispatch, getState) => {
     const status = selectFetchStatus(getState(), 'fetchUpdate')
-    const token = selectBearerToken(getState())
+    const token = selectUserInfo(getState()).bearerToken
     if (status === 'pending' || status === 'updating') {
       return
     }
