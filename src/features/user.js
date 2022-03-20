@@ -35,9 +35,20 @@ const { actions, reducer } = createSlice({
       state.isEditing = !state.isEditing
       return
     },
+    closeEditMode: (state) => {
+      state.isEditing = false
+      return
+    },
   },
 })
 
-export const { login, signout, getProfile, update, toggleEditMode } = actions
+export const {
+  login,
+  signout,
+  getProfile,
+  update,
+  toggleEditMode,
+  closeEditMode,
+} = actions
 
 export default reducer

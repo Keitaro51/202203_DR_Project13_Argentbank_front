@@ -26,7 +26,7 @@ function User() {
       navigate('/login')
     }
     return function cleanup() {
-      dispatch(userActions.toggleEditMode())
+      dispatch(userActions.closeEditMode())
     }
   }, [bearerToken, navigate, dispatch])
 

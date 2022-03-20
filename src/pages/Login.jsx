@@ -1,6 +1,6 @@
 import { USER } from '../config'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { fetchOrUpdateLogin } from '../features/fetchLogin'
@@ -17,6 +17,9 @@ function Login() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
+  const emailValue = useRef(null)
+  const passwordValue = useRef(null)
+
   const isConnected = useSelector(selectIsConnected)
   useEffect(() => {
     isConnected && navigate('/user')
@@ -31,8 +34,8 @@ function Login() {
     e.preventDefault()
     await dispatch(
       fetchOrUpdateLogin({
-        email: document.getElementById('username').value,
-        password: document.getElementById('password').value,
+        email: emailValue.current.value,
+        password: passwordValue.current.value,
       })
     )
     navigate('/user')
@@ -49,12 +52,14 @@ function Login() {
             type="text"
             idFor="username"
             prefill={USER.email}
+            ref={emailValue}
           />
           <FormInput
             content="Password"
             type="password"
             idFor="password"
             prefill={USER.password}
+            ref={passwordValue}
           />
           <div className="input-remember">
             <input type="checkbox" id="remember-me" />

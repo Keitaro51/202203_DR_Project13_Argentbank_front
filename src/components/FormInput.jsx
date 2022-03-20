@@ -1,4 +1,5 @@
 import propTypes from 'prop-types'
+import { forwardRef } from 'react'
 
 /**
  * form inputs component
@@ -8,14 +9,22 @@ import propTypes from 'prop-types'
  * @param {string} prefill input prefill content prop
  * @component
  */
-function FormInput({ content, type, idFor, prefill }) {
+const FormInput = ({ content, type, idFor, prefill }, ref) => {
   return (
     <div className="input-wrapper">
       <label htmlFor={idFor}>{content}</label>
-      <input type={type} id={idFor} autoComplete="off" defaultValue={prefill} />
+      <input
+        ref={ref}
+        type={type}
+        id={idFor}
+        autoComplete="off"
+        defaultValue={prefill}
+      />
     </div>
   )
 }
+
+export default forwardRef(FormInput)
 
 FormInput.propTypes = {
   content: propTypes.string,
@@ -23,5 +32,3 @@ FormInput.propTypes = {
   idFor: propTypes.string,
   prefill: propTypes.string,
 }
-
-export default FormInput
