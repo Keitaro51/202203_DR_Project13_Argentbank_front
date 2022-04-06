@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from './utils/store'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { PersistGate } from 'redux-persist/integration/react'
+import { persistStore } from 'redux-persist'
 
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -17,24 +19,27 @@ import './style/main.css'
 
 import reportWebVitals from './reportWebVitals'
 
+let persistor = persistStore(store)
 const queryClient = new QueryClient()
 
 ReactDOM.render(
   <QueryClientProvider client={queryClient}>
     <Provider store={store}>
-      <React.StrictMode>
-        <Router>
-          <Header />
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/user" element={<User />} />
-            <Route path="/transaction/:id" element={<Transaction />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Router>
-        <Footer />
-      </React.StrictMode>
+      <PersistGate loading={null} persistor={persistor}>
+        <React.StrictMode>
+          <Router>
+            <Header />
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/user" element={<User />} />
+              <Route path="/transaction/:id" element={<Transaction />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Router>
+          <Footer />
+        </React.StrictMode>
+      </PersistGate>
     </Provider>
   </QueryClientProvider>,
   document.getElementById('root')
